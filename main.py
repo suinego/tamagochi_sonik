@@ -69,7 +69,7 @@ class Pet:
 
     def update_status(self):
         current_time = pygame.time.get_ticks()
-        if current_time - self.last_update_time > 1000:
+        if current_time - self.last_update_time > 4000:
             self.hunger -= 5
             self.energy -= 5
             self.happiness -= 2
@@ -120,14 +120,14 @@ class Game:
     def draw_button(self, text, x, y, width, height, callback=None):
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
-
-        color = GRAY
+        normal_color = (255, 182, 193)
+        hover_color = (255, 105, 180)
+        color = normal_color
         if x <= mouse_pos[0] <= x + width and y <= mouse_pos[1] <= y + height:
-            color = BLUE
+            color = hover_color
             if mouse_click[0] and callback:
                 callback()
-
-        pygame.draw.rect(self.screen, color, (x, y, width, height))
+        pygame.draw.rect(self.screen, color, (x, y, width, height), border_radius=10)
         self.render_text(text, x + 10, y + 10, size=24, color=BLACK)
 
     def feed_pet(self):
@@ -153,8 +153,6 @@ class Game:
         while self.is_running:
             self.screen.blit(self.background_game, (0, 0))
             self.render_status()
-
-            # Buttons
             self.draw_button("Feed", 20, 200, 100, 50, self.feed_pet)
             self.draw_button("Play", 20, 260, 100, 50, self.play_with_pet)
             self.draw_button("Sleep", 20, 320, 100, 50, self.let_pet_sleep)
