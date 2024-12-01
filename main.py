@@ -21,8 +21,8 @@ class Food:
 
     def feed_pet(self, pet):
         pet.hunger += 20
-        pet.health += self.health_effect
-        pet.happiness += self.happiness_effect
+        pet.health = min(pet.health + self.health_effect, 100)
+        pet.happiness = min(pet.happiness + self.happiness_effect, 100)
 
 @dataclass
 class Pet:
@@ -48,31 +48,32 @@ class Pet:
 
     def feed(self, food):
         food.feed_pet(self)
-        self.hunger = min(self.hunger, 100)
+        self.hunger = min(self.hunger + 20, 100)
         self.health = min(self.health, 100)
         self.happiness = min(self.happiness, 100)
 
     def play(self):
         if self.energy >= 10:
-            self.happiness += 15
-            self.energy -= 10
+            self.happiness = min(self.happiness + 15, 100)
+            self.energy = max(self.energy - 10, 0)
         else:
-            self.happiness -= 5
+            self.happiness = max(self.happiness - 5, 0)
 
     def sleep(self):
-        self.energy += 30
+        self.energy = min(self.energy + 30, 100)
 
     def heal(self):
         if self.is_sick:
-            self.health += 20
+            self.health = min(self.health + 20, 100)
             self.is_sick = False
+
 
     def update_status(self):
         current_time = pygame.time.get_ticks()
         if current_time - self.last_update_time > 4000:
-            self.hunger -= 5
-            self.energy -= 5
-            self.happiness -= 2
+            self.hunger = max(self.hunger - 5, 0)
+            self.energy = max(self.energy - 5, 0)
+            self.happiness = max(self.happiness - 2, 0)
 
             if random.randint(0, 100) < 5:
                 self.is_sick = True
