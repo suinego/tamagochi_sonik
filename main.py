@@ -108,15 +108,15 @@ class Game:
         self.background_game = pygame.transform.scale(self.background_game, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.background_intro = pygame.image.load(os.path.join("data", "intro.jpg"))
         self.background_intro = pygame.transform.scale(self.background_intro, (SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.pet_images = {
-            "male_cat": pygame.image.load(os.path.join("data", "malecat.png")),
-            "female_cat": pygame.image.load(os.path.join("data", "femalecat.png")),
-            "male_dog": pygame.image.load(os.path.join("data", "maledog.png")),
-            "female_dog": pygame.image.load(os.path.join("data", "femaledog.png")),
-        }
         self.selected_pet_image = None
         self.pet_type = "Cat"
         self.gender = "Male"
+        self.pet_images = {
+            "male_cat": pygame.image.load("data/malecat.png").convert_alpha(),
+            "female_cat": pygame.image.load("data/pngegg.png").convert_alpha(),
+            "male_dog": pygame.image.load("data/maledog.png").convert_alpha(),
+            "female_dog": pygame.image.load("data/femaledog.png").convert_alpha(),
+}
 
     def create_pet(self, name: str, pet_type: str, gender: str) -> None:
         self.pet = Pet(name=name, type=pet_type, gender=gender)
@@ -174,7 +174,7 @@ class Game:
             self.draw_button("Heal", 20, 380, 100, 50, self.heal_pet)
 
             if self.selected_pet_image:
-                self.screen.blit(self.selected_pet_image, (400, 150))
+                self.screen.blit(self.selected_pet_image, (300, 100))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
