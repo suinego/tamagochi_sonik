@@ -3,6 +3,7 @@ import pygame
 import random
 import os
 from dataclasses import dataclass
+from typing import Callable, Optional
 
 pygame.init()
 SCREEN_WIDTH = 800
@@ -19,7 +20,7 @@ class Food:
     health_effect: int
     happiness_effect: int
 
-    def feed_pet(self, pet):
+    def feed_pet(self, pet) -> None:
         pet.hunger += 20
         pet.health = min(pet.health + self.health_effect, 100)
         pet.happiness = min(pet.happiness + self.happiness_effect, 100)
@@ -35,7 +36,17 @@ class Pet:
     energy: int = 100
     is_sick: bool = False
 
-    def __init__(self, name, type, gender, health=100, hunger=100, happiness=100, energy=100, is_sick=False):
+    def __init__(
+    self, 
+    name: str, 
+    type: str, 
+    gender: str, 
+    health: int = 100, 
+    hunger: int = 100, 
+    happiness: int = 100, 
+    energy: int = 100, 
+    is_sick: bool = False
+    ) -> None:  
         self.name = name
         self.type = type
         self.gender = gender
@@ -46,7 +57,7 @@ class Pet:
         self.is_sick = is_sick
         self.last_update_time = pygame.time.get_ticks()
 
-    def feed(self, food):
+    def feed(self, food: Food) -> None:
         food.feed_pet(self)
         self.hunger = min(self.hunger + 20, 100)
         self.health = min(self.health, 100)
@@ -68,7 +79,7 @@ class Pet:
             self.is_sick = False
 
 
-    def update_status(self):
+    def update_status(self) -> bool:
         current_time = pygame.time.get_ticks()
         if current_time - self.last_update_time > 4000:
             self.hunger = max(self.hunger - 5, 0)
@@ -80,11 +91,14 @@ class Pet:
 
             self.last_update_time = current_time
 
-        if self.health <= 0 or self.hunger <= 0 or self.happiness <= 0 or self.energy <= 0:
+        if self.health <= 0 or self.hunger <= 0 or self.happiness <= 0 or self.energy <= 0:            
             return False
         return True
-
+    
 class Game:
+    
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    
     def __init__(self):
         self.pet = None
         self.is_running = True
@@ -104,10 +118,10 @@ class Game:
         self.pet_type = "Cat"
         self.gender = "Male"
 
-    def create_pet(self, name, pet_type, gender):
+    def create_pet(self, name: str, pet_type: str, gender: str) -> None:
         self.pet = Pet(name=name, type=pet_type, gender=gender)
-
-    def render_text(self, text, x, y, size=36, color=BLACK):
+        
+    def render_text(self, text: str, x: int, y: int, size: int = 36, color: tuple[int, int, int] = BLACK) -> None:
         font = pygame.font.Font(None, size)
         rendered_text = font.render(text, True, color)
         self.screen.blit(rendered_text, (x, y))
@@ -118,7 +132,7 @@ class Game:
         self.render_text(f"Happiness: {self.pet.happiness}", 20, 100)
         self.render_text(f"Energy: {self.pet.energy}", 20, 140)
 
-    def draw_button(self, text, x, y, width, height, callback=None):
+    def draw_button(self, text: str, x: int, y: int, width: int, height: int, callback: Optional[Callable] = None) -> None:
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
         normal_color = (255, 182, 193)
@@ -175,11 +189,11 @@ class Game:
             pygame.display.flip()
             clock.tick(60)
 
-    def select_type(self, pet_type):
+    def select_type(self, pet_type: str) -> None:
         self.pet_type = pet_type
         self.update_pet_image()
 
-    def select_gender(self, gender):
+    def select_gender(self, gender: str) -> None:
         self.gender = gender
         self.update_pet_image()
 
