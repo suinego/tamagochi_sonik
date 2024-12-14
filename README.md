@@ -71,3 +71,5 @@ by Морозова София Б05-253
 2. render_status(pet) — отображение состояния питомца.
 3. user_input() — обработка пользовательского ввода.
 
+### Покрытие тестами
+[![Coverage Status](https://coveralls.io/repos/github/suinego/tamagochi_sonik/badge.svg?branch=main)](https://coveralls.io/github/suinego/tamagochi_sonik?branch=main)
