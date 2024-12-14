@@ -28,7 +28,7 @@ jobs:
             
       - name: Run tests with coverage
         run: |
-          coverage run --rcfile=.coveragerc -m unittest discover -s . -p "test_game.py"
+          coverage run --rcfile=.coveragerc -m unittest discover
           coverage report
 
       - name: Coveralls
