@@ -6,7 +6,7 @@ on:
       - prj
   pull_request:
     branches:
-      - main
+      - prj
 
 jobs:
   test:
