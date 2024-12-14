@@ -31,8 +31,12 @@ jobs:
         coverage run --rcfile=.coveragerc -m unittest discover
         coverage report
 
-    - name: Upload coverage report to Coveralls
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@v2.3.4
+            
+    - name:ReportCoveralls
       run: |
         coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{cCOyiKhJzoiowaBtTUKxrOSNzi1GHPiqS}}
+
