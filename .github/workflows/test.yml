@@ -19,7 +19,7 @@ jobs:
       - name: set up
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.8'
 
       - name: Install dependencies
         run: |
@@ -31,11 +31,11 @@ jobs:
             
       - name: Run tests with coverage
         run: |
-          coverage run --rcfile=.coveragerc -m unittest discover
+          coverage run --rcfile=.coveragerc -m unittest discover -s . -p "test_game.py"
           coverage report
 
       - name: Coveralls
         run: |
           coveralls
         env:
-          COVERALLS_REPO_TOKEN: ${{secrets.COVERALLS_REPO_TOKEN=cCOyiKhJzoiowaBtTUKxrOSNzi1GHPiqS}}
+          COVERALLS_REPO_TOKEN: ${{cCOyiKhJzoiowaBtTUKxrOSNzi1GHPiqS}}
